@@ -51,7 +51,7 @@ const LoginPage = () => {
         setLogginedInHelper(true, responseJson.username);
       } else if (response.status === 401) {
         setLogginedInHelper(false, null);
-        setErrorMessage('Incorrect username or password');
+        setErrorMessage(responseJson.message);
         emailRef.current.value = '';
         passwordRef.current.value = '';
       } else {
