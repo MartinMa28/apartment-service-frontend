@@ -8,7 +8,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { loggedIn, setLogginedInHelper } = useContext(LoggedIn);
+  const { loggedIn, setLoggedInHelper } = useContext(LoggedIn);
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -25,12 +25,11 @@ const LoginPage = () => {
     };
 
     const formBody = Object.keys(bodyObj)
-      .map((key) => {
-        encodeURIComponent(key) + '=' + encodeURIComponent(bodyObj[key]);
-      })
+      .map(
+        (key) =>
+          encodeURIComponent(key) + '=' + encodeURIComponent(bodyObj[key])
+      )
       .join('&');
-
-    console.log(formBody);
 
     try {
       const response = await fetch('/auth/login', {
@@ -44,13 +43,10 @@ const LoginPage = () => {
 
       const responseJson = await response.json();
 
-      console.log(response.status);
-      console.log(responseJson);
-
       if (response.status === 200) {
-        setLogginedInHelper(true, responseJson.username);
+        setLoggedInHelper(true, responseJson.username);
       } else if (response.status === 401) {
-        setLogginedInHelper(false, null);
+        setLoggedInHelper(false, null);
         setErrorMessage(responseJson.message);
         emailRef.current.value = '';
         passwordRef.current.value = '';

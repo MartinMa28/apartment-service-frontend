@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoggedIn from './components/LoginContext';
 import NavBar from './components/NavBar';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const defaultLoginInfo = {
@@ -32,11 +37,8 @@ function App() {
         <NavBar />
         <Switch>
           <Route path="/" component={HomePage} exact />
-          <Route path="/login" render={(props) => <LoginPage {...props} />} />
-          <Route
-            path="/register"
-            render={(props) => <RegisterPage {...props} />}
-          />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/register" component={RegisterPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Router>

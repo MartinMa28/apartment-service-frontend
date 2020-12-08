@@ -23,12 +23,12 @@ const RegisterPage = () => {
       email: email,
       password: password,
     };
-    const formBody = Object.keys(bodyObj).map((key) => {
-      encodeURIComponent(key) +
-        '=' +
-        encodeURIComponent(bodyObj[key]).join('&');
-    });
-    console.log(formBody);
+    const formBody = Object.keys(bodyObj)
+      .map(
+        (key) =>
+          encodeURIComponent(key) + '=' + encodeURIComponent(bodyObj[key])
+      )
+      .join('&');
 
     try {
       let response = await fetch('/user/register', {
@@ -40,7 +40,6 @@ const RegisterPage = () => {
         body: formBody,
       });
 
-      console.log(response.status);
       if (response.status === 200) {
         history.push('/login');
       } else if (response.status === 500) {
