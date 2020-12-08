@@ -1,0 +1,9 @@
+.container-fluid {
+  min-height: 100vh;
+}
+
+.login-form {
+  position: fixed;
+  color: #404040;
+  min-width: 30%;
+}
