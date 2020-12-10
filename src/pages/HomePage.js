@@ -42,9 +42,10 @@ const HomePage = () => {
         rooms: roomNum,
         minPrice: minIntPrice,
         maxPrice: maxIntPrice,
+        page: 1,
       };
       const url =
-        '/houses/' +
+        '/house-list?' +
         Object.keys(queryObj)
           .map(
             (key) =>

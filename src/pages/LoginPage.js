@@ -59,7 +59,7 @@ const LoginPage = () => {
   };
 
   if (loggedIn.loggedIn) {
-    return <Redirect to="/houses"></Redirect>;
+    return <Redirect to="/house-list"></Redirect>;
   } else {
     return (
       <div className="container-fluid">
