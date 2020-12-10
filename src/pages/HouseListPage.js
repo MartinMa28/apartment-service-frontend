@@ -11,6 +11,12 @@ const HouseListPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(-1);
 
+  const handleChange = (newHouses, newTotalPages, newCurrentPage) => {
+    setCurrentPage(newCurrentPage);
+    setHouses(newHouses);
+    setTotalPages(newTotalPages);
+  };
+
   const fetchHousings = async () => {
     try {
       console.log(`fetch url: ${'/houses' + location.search}`);
@@ -18,9 +24,11 @@ const HouseListPage = () => {
       const respJson = await resp.json();
 
       const params = new URLSearchParams(location.search);
-      setCurrentPage(parseInt(params.get('page')));
-      setHouses(respJson.apartments);
-      setTotalPages(respJson.pages);
+      handleChange(
+        respJson.apartments,
+        parseInt(respJson.pages),
+        parseInt(params.get('page'))
+      );
     } catch (err) {
       console.log(err);
     }
@@ -50,7 +58,7 @@ const HouseListPage = () => {
       <Container>
         <Row>
           <Col xs={4} sm={2}>
-            <DetailedSearchForm />
+            <DetailedSearchForm onChange={handleChange} />
           </Col>
           <Col>
             {houses.map((house, idx) => (

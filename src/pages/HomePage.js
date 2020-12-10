@@ -30,10 +30,8 @@ const HomePage = () => {
       maxIntPrice = parseInt(maxPrice.substring(1));
     }
 
-    if (minIntPrice > maxIntPrice) {
-      setErrorMessage(
-        "'Price From' should be less than or equal to 'Price To'"
-      );
+    if (minIntPrice >= maxIntPrice) {
+      setErrorMessage("'Price From' should be less than 'Price To'");
       roomNumRef.current.value = '1';
       minPriceRef.current.value = '---';
       maxPriceRef.current.value = '---';
