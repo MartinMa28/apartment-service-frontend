@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Row, Col, Pagination } from 'react-bootstrap';
 import DetailedSearchForm from '../components/DetailedSearchForm';
+import HouseCard from '../components/HouseCard';
 import '../styles/HouseListPage.css';
 
 const HouseListPage = () => {
@@ -61,9 +62,13 @@ const HouseListPage = () => {
             <DetailedSearchForm onChange={handleChange} />
           </Col>
           <Col>
-            {houses.map((house, idx) => (
-              <h2 key={idx.toString()}>Dummy card: {house['result-title']}</h2>
-            ))}
+            <Container>
+              <Row className="m-4">
+                {houses.map((house, idx) => (
+                  <HouseCard key={idx.toString()} house={house} />
+                ))}
+              </Row>
+            </Container>
           </Col>
         </Row>
         <Row className="justify-content-center">
