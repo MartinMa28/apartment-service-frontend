@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import LoggedIn from '../components/LoginContext';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import AliceCarousel from 'react-alice-carousel';
@@ -13,19 +14,23 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 import '../styles/HouseDetailPage.css';
 
 const HouseDetailPage = () => {
+  const { loggedIn } = useContext(LoggedIn);
   const { houseId } = useParams();
   const [house, setHouse] = useState(null);
   const [saved, setSaved] = useState(false);
 
   const fetchHouse = async () => {
-    const resp = await fetch(`/houses/by_id/${houseId}`);
-    const respJson = await resp.json();
+    const houseResp = await fetch(`/houses/by_id/${houseId}`);
+    const houseRespJson = await houseResp.json();
+    setHouse(houseRespJson['house']);
 
-    setHouse(respJson['house']);
-  };
-
-  const toggleSave = () => {
-    setSaved(!saved);
+    if (loggedIn.loggedIn) {
+      const watchResp = await fetch(`/watch/check/${houseId}`);
+      const watchRespJson = await watchResp.json();
+      setSaved(watchRespJson['saved']);
+    } else {
+      setSaved(false);
+    }
   };
 
   const parseHouseImages = (imgs) => {
@@ -36,7 +41,7 @@ const HouseDetailPage = () => {
     }
   };
 
-  useEffect(fetchHouse, []);
+  useEffect(fetchHouse, [loggedIn]);
 
   if (house) {
     return (
@@ -50,9 +55,9 @@ const HouseDetailPage = () => {
           <Row>
             <Col xs={1}>
               {saved ? (
-                <UnSaveIconButton onToggle={toggleSave} />
+                <UnSaveIconButton onSave={setSaved} houseId={houseId} />
               ) : (
-                <SaveIconButton onToggle={toggleSave} />
+                <SaveIconButton onSave={setSaved} houseId={houseId} />
               )}
               <hr></hr>
               {<EmailIconButton />}
