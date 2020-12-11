@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
 import HouseListPage from './pages/HouseListPage';
+import HouseDetailPage from './pages/HouseDetailPage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/login" component={LoginPage} />
           <Route path="/register" component={RegisterPage} />
           <Route path="/house-list" component={HouseListPage} />
+          <Route path="/house-detail/:houseId" component={HouseDetailPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Router>

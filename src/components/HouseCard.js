@@ -33,7 +33,9 @@ const HouseCard = ({ house }) => {
           className="card-img"
         />
         <Card.Body>
-          <Card.Title>{house['result-title']}</Card.Title>
+          <Card.Link href={`/house-detail/${house['_id']}`}>
+            {house['result-title']}
+          </Card.Link>
           <Card.Text>
             <FontAwesomeIcon icon={faDollarSign} /> {house['result-price']}
           </Card.Text>

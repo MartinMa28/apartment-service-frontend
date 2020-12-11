@@ -223,7 +223,7 @@ const DetailedSearchForm = ({ onChange }) => {
       </Form.Group>
 
       <Button variant="primary" onClick={handleFilter}>
-        Submit
+        Filter
       </Button>
     </Form>
   );
