@@ -1,4 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.house-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 3vh;
+}
+
 .house-detail-img {
   object-fit: cover;
   height: 40vh;
+}
+
+.icon-btn-div:hover {
+  background-color: #ececec;
+  cursor: pointer;
 }

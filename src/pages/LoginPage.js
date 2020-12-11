@@ -1,20 +1,17 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import React, { useState, useContext, useRef } from 'react';
+import { Redirect, Link, useHistory } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import LoggedIn from '../components/LoginContext';
 import '../styles/LoginPage.css';
 
 const LoginPage = () => {
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { loggedIn, setLoggedInHelper } = useContext(LoggedIn);
   const emailRef = useRef();
   const passwordRef = useRef();
-
-  useEffect(() => {
-    emailRef.current.focus();
-  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,6 +42,7 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         setLoggedInHelper(true, responseJson.username);
+        history.goBack();
       } else if (response.status === 401) {
         setLoggedInHelper(false, null);
         setErrorMessage(responseJson.message);
@@ -59,7 +57,7 @@ const LoginPage = () => {
   };
 
   if (loggedIn.loggedIn) {
-    return <Redirect to="/house-list"></Redirect>;
+    return <Redirect to="/"></Redirect>;
   } else {
     return (
       <div className="container-fluid">
