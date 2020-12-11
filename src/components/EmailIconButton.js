@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import LoggedIn from '../components/LoginContext';
+import { useHistory } from 'react-router-dom';
 
 const EmailIconButton = () => {
+  const { loggedIn } = useContext(LoggedIn);
+  const history = useHistory();
+
   const sendEmail = () => {
-    console.log('should be sending email over here');
+    if (loggedIn.loggedIn) {
+      console.log('should save over here');
+    } else {
+      history.push('/login');
+    }
   };
 
   return (
