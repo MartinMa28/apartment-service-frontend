@@ -1,20 +1,21 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as Heart } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
-import LoggedIn from '../components/LoginContext';
-import { useHistory } from 'react-router-dom';
 
-const UnSaveIconButton = ({ onToggle }) => {
-  const { loggedIn } = useContext(LoggedIn);
-  const history = useHistory();
+const UnSaveIconButton = ({ onSave, houseId }) => {
+  const handleClick = async () => {
+    try {
+      const resp = await fetch(`/watch/delete/${houseId}`);
 
-  const handleClick = () => {
-    if (loggedIn.loggedIn) {
-      onToggle();
-      console.log('should un-save over here');
-    } else {
-      history.push('/login');
+      if (resp.status === 200) {
+        onSave(false);
+      }
+    } catch (err) {
+      alert(
+        `Failed to un-watch apartment: ${houseId}. Please contact the developer.`
+      );
+      console.log(err);
     }
   };
 
@@ -29,7 +30,8 @@ const UnSaveIconButton = ({ onToggle }) => {
 };
 
 UnSaveIconButton.propTypes = {
-  onToggle: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  houseId: PropTypes.string.isRequired,
 };
 
 export default UnSaveIconButton;

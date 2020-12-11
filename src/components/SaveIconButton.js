@@ -5,14 +5,23 @@ import PropTypes from 'prop-types';
 import LoggedIn from '../components/LoginContext';
 import { useHistory } from 'react-router-dom';
 
-const SaveIconButton = ({ onToggle }) => {
+const SaveIconButton = ({ onSave, houseId }) => {
   const { loggedIn } = useContext(LoggedIn);
   const history = useHistory();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (loggedIn.loggedIn) {
-      onToggle();
-      console.log('should save over here');
+      try {
+        const resp = await fetch(`/watch/add/${houseId}`);
+        if (resp.status === 200) {
+          onSave(true);
+        }
+      } catch (err) {
+        alert(
+          `Failed to watch apartment: ${houseId}. Please contact the developer.`
+        );
+        console.log(err);
+      }
     } else {
       history.push('/login');
     }
@@ -29,7 +38,8 @@ const SaveIconButton = ({ onToggle }) => {
 };
 
 SaveIconButton.propTypes = {
-  onToggle: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  houseId: PropTypes.string.isRequired,
 };
 
 export default SaveIconButton;
