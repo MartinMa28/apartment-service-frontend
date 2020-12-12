@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import LoggedIn from '../components/LoginContext';
-import { useParams } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { useParams, useLocation } from 'react-router-dom';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import AliceCarousel from 'react-alice-carousel';
 import unavailableImg from '../images/unavailable-image.jpg';
 import SaveIconButton from '../components/SaveIconButton';
 import UnSaveIconButton from '../components/UnSaveIconButton';
 import EmailIconButton from '../components/EmailIconButton';
-
-//import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 
 import 'react-alice-carousel/lib/alice-carousel.css';
 import '../styles/HouseDetailPage.css';
@@ -16,8 +14,27 @@ import '../styles/HouseDetailPage.css';
 const HouseDetailPage = () => {
   const { loggedIn } = useContext(LoggedIn);
   const { houseId } = useParams();
+  const [alertMsg, setAlertMsg] = useState('');
+  const [cheaperAptUrl, setCheaperAptUrl] = useState(null);
   const [house, setHouse] = useState(null);
   const [saved, setSaved] = useState(false);
+  const location = useLocation();
+
+  const handleEvents = () => {
+    if (loggedIn.loggedIn) {
+      const events = new EventSource('/events');
+      events.onmessage = (event) => {
+        const { message, apartmentId } = JSON.parse(event.data);
+        console.log(message);
+        console.log(apartmentId);
+        if (apartmentId) {
+          setAlertMsg(message);
+          setCheaperAptUrl('/house-detail/' + apartmentId);
+          console.log('/house-detail/' + apartmentId);
+        }
+      };
+    }
+  };
 
   const fetchHouse = async () => {
     const houseResp = await fetch(`/houses/by_id/${houseId}`);
@@ -41,7 +58,10 @@ const HouseDetailPage = () => {
     }
   };
 
-  useEffect(fetchHouse, [loggedIn]);
+  useEffect(() => {
+    fetchHouse();
+    handleEvents();
+  }, [loggedIn, location.pathname]);
 
   if (house) {
     return (
@@ -51,6 +71,21 @@ const HouseDetailPage = () => {
             <h1 className="house-title m-5">
               {house['result-title']} - ${house['result-price']}/month{' '}
             </h1>
+          </Row>
+          <Row className="d-flex flex-row-reverse">
+            {alertMsg !== '' ? (
+              <Alert
+                onClose={() => {
+                  setCheaperAptUrl(null);
+                  setAlertMsg('');
+                }}
+                variant="info"
+                dismissible
+              >
+                {alertMsg}
+                <Alert.Link href={cheaperAptUrl}>Check it out!</Alert.Link>
+              </Alert>
+            ) : null}
           </Row>
           <Row>
             <Col xs={1}>
