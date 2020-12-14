@@ -24,13 +24,16 @@ const HouseDetailPage = () => {
     if (loggedIn.loggedIn) {
       const events = new EventSource('/events');
       events.onmessage = (event) => {
-        const { message, apartmentId } = JSON.parse(event.data);
+        const { message, apartmentId, email } = JSON.parse(event.data);
         console.log(message);
         console.log(apartmentId);
+        console.log(email);
         if (apartmentId) {
           setAlertMsg(message);
           setCheaperAptUrl('/house-detail/' + apartmentId);
           console.log('/house-detail/' + apartmentId);
+        } else if (email) {
+          setAlertMsg(message);
         }
       };
     }
@@ -83,7 +86,9 @@ const HouseDetailPage = () => {
                 dismissible
               >
                 {alertMsg}
-                <Alert.Link href={cheaperAptUrl}>Check it out!</Alert.Link>
+                {cheaperAptUrl ? (
+                  <Alert.Link href={cheaperAptUrl}>Check it out!</Alert.Link>
+                ) : null}
               </Alert>
             ) : null}
           </Row>
@@ -95,7 +100,7 @@ const HouseDetailPage = () => {
                 <SaveIconButton onSave={setSaved} houseId={houseId} />
               )}
               <hr></hr>
-              {<EmailIconButton />}
+              {<EmailIconButton houseId={houseId} />}
             </Col>
             <Col xs={6}>
               <AliceCarousel disableSlideInfo={false} disableDotsControls>
