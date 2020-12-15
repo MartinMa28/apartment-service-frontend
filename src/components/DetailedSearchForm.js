@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const DetailedSearchForm = () => {
+const DetailedSearchForm = ({ onChange }) => {
   const bedroomsRef = useRef();
   const [bedrooms, setBedrooms] = useState(1);
   const minAreaRef = useRef();
@@ -28,7 +29,7 @@ const DetailedSearchForm = () => {
       minIntArea = parseInt(minArea.substring(0, minArea.length - 2));
     }
 
-    if (minArea === '---') {
+    if (maxArea === '---') {
       maxIntArea = 9999999;
     } else {
       maxIntArea = parseInt(maxArea.substring(0, maxArea.length - 2));
@@ -69,7 +70,7 @@ const DetailedSearchForm = () => {
         maxPrice: maxIntPrice,
         page: 1,
       };
-      const url =
+      let url =
         '/house-list?' +
         Object.keys(queryObj)
           .map(
@@ -78,11 +79,22 @@ const DetailedSearchForm = () => {
           )
           .join('&');
       setErrorMessage('');
+      console.log(url);
       history.push(url);
-      // const resp = await fetch(url);
-      // const respJson = await resp.json();
 
-      // onChange(respJson.apartments, parseInt(respJson.pages), parseInt(1));
+      url =
+        '/houses?' +
+        Object.keys(queryObj)
+          .map(
+            (key) =>
+              encodeURIComponent(key) + '=' + encodeURIComponent(queryObj[key])
+          )
+          .join('&');
+      console.log(url);
+      const resp = await fetch(url);
+      const respJson = await resp.json();
+
+      onChange(respJson.apartments, parseInt(respJson.pages), parseInt(1));
     }
   };
 
@@ -224,8 +236,8 @@ const DetailedSearchForm = () => {
   );
 };
 
-// DetailedSearchForm.propTypes = {
-//   onChange: PropTypes.func.isRequired,
-// };
+DetailedSearchForm.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};
 
 export default DetailedSearchForm;
