@@ -7,6 +7,7 @@ import unavailableImg from '../images/unavailable-image.jpg';
 import SaveIconButton from '../components/SaveIconButton';
 import UnSaveIconButton from '../components/UnSaveIconButton';
 import EmailIconButton from '../components/EmailIconButton';
+import EmailForm from '../components/EmailForm';
 
 import 'react-alice-carousel/lib/alice-carousel.css';
 import '../styles/HouseDetailPage.css';
@@ -118,7 +119,7 @@ const HouseDetailPage = () => {
               </AliceCarousel>
             </Col>
             <Col xs={4}>
-              <h2>some other shit</h2>
+              <EmailForm houseId={houseId} />
             </Col>
           </Row>
           <Row>
