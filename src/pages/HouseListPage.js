@@ -58,7 +58,7 @@ const HouseListPage = () => {
     <main>
       <Container>
         <Row>
-          <Col xs={4} sm={2}>
+          <Col xs={4} sm={2} className="m-4">
             <DetailedSearchForm onChange={handleChange} />
           </Col>
           <Col>

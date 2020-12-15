@@ -38,9 +38,6 @@ const NavBar = () => {
             <Nav.Item as="li" className="p-1">
               <Nav.Link href="/">Home</Nav.Link>
             </Nav.Item>
-            <Nav.Item as="li" className="p-1">
-              <Nav.Link href="/house-list">Available Housing for Rent</Nav.Link>
-            </Nav.Item>
           </Nav>
           <Button
             variant="outline-secondary"
