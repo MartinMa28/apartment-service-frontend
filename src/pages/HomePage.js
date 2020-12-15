@@ -66,7 +66,7 @@ const HomePage = () => {
         <Container>
           <Row>
             <Col xs={{ span: 6, offset: 2 }} className="p-0">
-              <h1 className="mt-5">Find great deals</h1>
+              <h1 className="mt-5 slogan">Find great deals</h1>
             </Col>
           </Row>
           <Row>

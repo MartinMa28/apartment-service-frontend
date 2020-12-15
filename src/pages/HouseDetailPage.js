@@ -7,6 +7,7 @@ import unavailableImg from '../images/unavailable-image.jpg';
 import SaveIconButton from '../components/SaveIconButton';
 import UnSaveIconButton from '../components/UnSaveIconButton';
 import EmailIconButton from '../components/EmailIconButton';
+import EmailForm from '../components/EmailForm';
 
 import 'react-alice-carousel/lib/alice-carousel.css';
 import '../styles/HouseDetailPage.css';
@@ -24,13 +25,16 @@ const HouseDetailPage = () => {
     if (loggedIn.loggedIn) {
       const events = new EventSource('/events');
       events.onmessage = (event) => {
-        const { message, apartmentId } = JSON.parse(event.data);
+        const { message, apartmentId, email } = JSON.parse(event.data);
         console.log(message);
         console.log(apartmentId);
+        console.log(email);
         if (apartmentId) {
           setAlertMsg(message);
           setCheaperAptUrl('/house-detail/' + apartmentId);
           console.log('/house-detail/' + apartmentId);
+        } else if (email) {
+          setAlertMsg(message);
         }
       };
     }
@@ -83,7 +87,9 @@ const HouseDetailPage = () => {
                 dismissible
               >
                 {alertMsg}
-                <Alert.Link href={cheaperAptUrl}>Check it out!</Alert.Link>
+                {cheaperAptUrl ? (
+                  <Alert.Link href={cheaperAptUrl}>Check it out!</Alert.Link>
+                ) : null}
               </Alert>
             ) : null}
           </Row>
@@ -95,7 +101,7 @@ const HouseDetailPage = () => {
                 <SaveIconButton onSave={setSaved} houseId={houseId} />
               )}
               <hr></hr>
-              {<EmailIconButton />}
+              {<EmailIconButton houseId={houseId} />}
             </Col>
             <Col xs={6}>
               <AliceCarousel disableSlideInfo={false} disableDotsControls>
@@ -113,7 +119,7 @@ const HouseDetailPage = () => {
               </AliceCarousel>
             </Col>
             <Col xs={4}>
-              <h2>some other shit</h2>
+              <EmailForm houseId={houseId} />
             </Col>
           </Row>
           <Row>
