@@ -12,12 +12,6 @@ const HouseListPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(-1);
 
-  const handleChange = (newHouses, newTotalPages, newCurrentPage) => {
-    setCurrentPage(newCurrentPage);
-    setHouses(newHouses);
-    setTotalPages(newTotalPages);
-  };
-
   const fetchHousings = async () => {
     try {
       console.log(`fetch url: ${'/houses' + location.search}`);
@@ -25,11 +19,9 @@ const HouseListPage = () => {
       const respJson = await resp.json();
 
       const params = new URLSearchParams(location.search);
-      handleChange(
-        respJson.apartments,
-        parseInt(respJson.pages),
-        parseInt(params.get('page'))
-      );
+      setCurrentPage(params.get('page'));
+      setHouses(respJson.apartments);
+      setTotalPages(respJson.pages);
     } catch (err) {
       console.log(err);
     }
@@ -59,7 +51,7 @@ const HouseListPage = () => {
       <Container>
         <Row>
           <Col xs={4} sm={2} className="m-4">
-            <DetailedSearchForm onChange={handleChange} />
+            <DetailedSearchForm />
           </Col>
           <Col>
             <Container>

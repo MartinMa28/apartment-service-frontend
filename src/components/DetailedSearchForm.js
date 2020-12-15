@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { Form, Button, Col, Row } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
-const DetailedSearchForm = ({ onChange }) => {
+const DetailedSearchForm = () => {
   const bedroomsRef = useRef();
   const [bedrooms, setBedrooms] = useState(1);
   const minAreaRef = useRef();
@@ -14,10 +14,7 @@ const DetailedSearchForm = ({ onChange }) => {
   const maxPriceRef = useRef();
   const [maxPrice, setMaxPrice] = useState('---');
   const [errorMessage, setErrorMessage] = useState('');
-  // const minDateRef = useRef();
-  // const [minDate, setMinDate] = useState('---');
-  // const maxDateRef = useRef();
-  // const [maxDate, setMaxDate] = useState('---');
+  const history = useHistory();
 
   const handleFilter = async () => {
     let minIntArea;
@@ -70,12 +67,10 @@ const DetailedSearchForm = ({ onChange }) => {
         maxArea: maxIntArea,
         minPrice: minIntPrice,
         maxPrice: maxIntPrice,
-        minDate: '2000-01-01',
-        maxDate: '2077-01-01',
         page: 1,
       };
       const url =
-        '/houses?' +
+        '/house-list?' +
         Object.keys(queryObj)
           .map(
             (key) =>
@@ -83,11 +78,11 @@ const DetailedSearchForm = ({ onChange }) => {
           )
           .join('&');
       setErrorMessage('');
+      history.push(url);
+      // const resp = await fetch(url);
+      // const respJson = await resp.json();
 
-      const resp = await fetch(url);
-      const respJson = await resp.json();
-
-      onChange(respJson.apartments, parseInt(respJson.pages), parseInt(1));
+      // onChange(respJson.apartments, parseInt(respJson.pages), parseInt(1));
     }
   };
 
@@ -229,8 +224,8 @@ const DetailedSearchForm = ({ onChange }) => {
   );
 };
 
-DetailedSearchForm.propTypes = {
-  onChange: PropTypes.func.isRequired,
-};
+// DetailedSearchForm.propTypes = {
+//   onChange: PropTypes.func.isRequired,
+// };
 
 export default DetailedSearchForm;
