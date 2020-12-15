@@ -93,7 +93,9 @@ const LoginPage = () => {
 
               <p className="p-4 text-center">
                 Not a member?
-                <Link to="/register">Register</Link>
+                <Link to="/register" replace>
+                  Register
+                </Link>
               </p>
 
               <Button

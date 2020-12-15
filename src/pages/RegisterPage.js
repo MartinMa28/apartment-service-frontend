@@ -41,7 +41,7 @@ const RegisterPage = () => {
       });
 
       if (response.status === 200) {
-        history.push('/login');
+        history.replace('/login');
       } else if (response.status === 500) {
         const responseJson = await response.json();
         const errorMsg = responseJson.message;
@@ -95,7 +95,9 @@ const RegisterPage = () => {
 
             <p className="p-4 text-center">
               Already have an account?
-              <Link to="/login">Sign In</Link>
+              <Link to="/login" replace>
+                Sign In
+              </Link>
             </p>
 
             <Button type="submit" className="btn btn-secondary my-4 btn-block">
