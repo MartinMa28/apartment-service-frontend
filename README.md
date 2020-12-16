@@ -22,6 +22,12 @@ This is the front-end of a housing service. If you are interested in the back-en
 ![house_list](./screenshots/ListPage.png 'shipments')
 ![house_detail](./screenshots/DetailPage.png 'delete')
 
+## Instructions on use
+```
+git clone https://github.com/wirthdrewneu/apartment-service-frontend/
+cd apartment-service-frontend
+npm install
+```
 ## How to build
 
 ```
